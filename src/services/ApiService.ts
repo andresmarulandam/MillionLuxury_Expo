@@ -24,7 +24,6 @@ export class ApiService {
     const response = await axios.get<CryptoResponse>(
       `${this.BASE_URL}/tickers/?start=${start}&limit=${limit}`,
     );
-    console.log(response.data);
     return response.data;
   }
 
