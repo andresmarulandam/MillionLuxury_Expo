@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import CryptoItem from '../components/CryptoItem';
 import EmptyListMessage from '../components/EmptyListMessage';
+import CryptoListHeader from '../components/CryptoListHeader';
 
 export default function CryptoListScreen() {
   const [cryptos, setCryptos] = useState<CryptoCurrency[]>([]);
@@ -83,19 +84,10 @@ export default function CryptoListScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.header}>Top Cryptocurrencies</Text>
-        <View style={styles.searchContainer}>
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Buscar criptomonedas..."
-            placeholderTextColor="#999"
-            value={searchTerm}
-            onChangeText={setSearchTerm}
-            clearButtonMode="while-editing"
-          />
-        </View>
-      </View>
+      <CryptoListHeader
+        searchTerm={searchTerm}
+        onSearchTermChange={setSearchTerm}
+      />
 
       <View style={styles.mainContainer}>
         {loading && cryptos.length === 0 ? (
@@ -151,18 +143,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'blue',
   },
-  headerContainer: {
-    paddingHorizontal: 16,
-    paddingTop: 16,
-    paddingBottom: 8,
-    backgroundColor: 'orange',
-    zIndex: 1,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 3,
-  },
   mainContainer: {
     flex: 1,
     paddingHorizontal: 16,
@@ -172,16 +152,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-
-  header: {
-    fontSize: 22,
-    fontWeight: '800',
-    color: '#1A1A1A',
-    textAlign: 'center',
-    marginTop: 50,
-    marginBottom: 16,
-    paddingHorizontal: 8,
   },
 
   listContent: {
@@ -194,16 +164,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     paddingHorizontal: 24,
-  },
-  searchContainer: {
-    padding: 10,
-    borderRadius: 5,
-  },
-  searchInput: {
-    height: 40,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    paddingHorizontal: 15,
-    fontSize: 16,
   },
 });
