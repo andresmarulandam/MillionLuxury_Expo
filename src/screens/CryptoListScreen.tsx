@@ -1,12 +1,15 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { CryptoCurrency } from '../models/CryptoCurrency';
 import { ApiService } from '../services/ApiService';
 import {
   ActivityIndicator,
+  Button,
   FlatList,
   SafeAreaView,
   StyleSheet,
   Text,
+  TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import CryptoItem from '../components/CryptoItem';
@@ -17,6 +20,7 @@ export default function CryptoListScreen() {
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState<number>(0);
   const [hasMore, setHasMore] = useState(true);
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   const loadMoreCryptos = useCallback(async () => {
     if (!hasMore || loading) return;
@@ -39,6 +43,19 @@ export default function CryptoListScreen() {
       setLoading(false);
     }
   }, [page, hasMore, loading]);
+
+  const filteredCryptos = useMemo(() => {
+    if (!searchTerm) return cryptos;
+
+    const term = searchTerm.toLowerCase();
+    const result = cryptos.filter(
+      (crypto) =>
+        crypto.name.toLowerCase().includes(term) ||
+        crypto.symbol.toLowerCase().includes(term),
+    );
+
+    return result;
+  }, [cryptos, searchTerm]);
 
   useEffect(() => {
     const loadCryptos = async () => {
@@ -65,8 +82,22 @@ export default function CryptoListScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      <View style={styles.headerContainer}>
+        <Text style={styles.header}>Top Cryptocurrencies</Text>
+        <View style={styles.searchContainer}>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Buscar criptomonedas..."
+            placeholderTextColor="#999"
+            value={searchTerm}
+            onChangeText={setSearchTerm}
+            clearButtonMode="while-editing"
+          />
+        </View>
+      </View>
+
       <View style={styles.mainContainer}>
-        {loading ? (
+        {loading && cryptos.length === 0 ? (
           <View style={styles.center}>
             <ActivityIndicator size="large" color="#0052FF" />
           </View>
@@ -75,22 +106,36 @@ export default function CryptoListScreen() {
             <Text style={styles.errorText}>{error}</Text>
           </View>
         ) : (
-          <>
-            <Text style={styles.header}>Top Cryptocurrencies</Text>
-            <FlatList
-              data={cryptos}
-              keyExtractor={(item) => `${item.id}-${item.nameid}`}
-              contentContainerStyle={styles.listContent}
-              renderItem={({ item }) => <CryptoItem item={item} />}
-              onEndReached={() => {
-                loadMoreCryptos();
-              }}
-              onEndReachedThreshold={0.1}
-              initialNumToRender={10}
-              maxToRenderPerBatch={5}
-              windowSize={10}
-              updateCellsBatchingPeriod={50}
-              ListFooterComponent={
+          <FlatList
+            data={searchTerm ? filteredCryptos : cryptos}
+            keyExtractor={(item) => `${item.id}-${item.nameid}`}
+            contentContainerStyle={styles.listContent}
+            renderItem={({ item }) => <CryptoItem item={item} />}
+            onEndReached={() => {
+              loadMoreCryptos();
+            }}
+            onEndReachedThreshold={0.1}
+            initialNumToRender={10}
+            maxToRenderPerBatch={5}
+            windowSize={10}
+            updateCellsBatchingPeriod={50}
+            ListEmptyComponent={
+              searchTerm && filteredCryptos.length === 0 ? (
+                <View style={styles.noResults}>
+                  <Text style={{ color: '#6B7280', marginBottom: 10 }}>
+                    No se encontraron criptos con "{searchTerm}"
+                  </Text>
+                  <TouchableOpacity
+                    style={styles.clearButton}
+                    onPress={() => setSearchTerm('')}
+                  >
+                    <Text style={styles.clearButtonText}>Limpiar búsqueda</Text>
+                  </TouchableOpacity>
+                </View>
+              ) : null
+            }
+            ListFooterComponent={
+              loading && hasMore && !searchTerm ? (
                 <View
                   style={{
                     height: 60,
@@ -100,9 +145,9 @@ export default function CryptoListScreen() {
                 >
                   <ActivityIndicator size="small" color="red" />
                 </View>
-              }
-            />
-          </>
+              ) : null
+            }
+          />
         )}
       </View>
     </SafeAreaView>
@@ -113,6 +158,18 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: 'blue',
+  },
+  headerContainer: {
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    paddingBottom: 8,
+    backgroundColor: 'orange',
+    zIndex: 1,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
   },
   mainContainer: {
     flex: 1,
@@ -140,26 +197,49 @@ const styles = StyleSheet.create({
     paddingTop: 8,
   },
 
-  // Loading y Error
-  loadingText: {
-    marginTop: 12,
-    color: '#6B7280',
+  noResults: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+    gap: 10,
   },
+
+  clearButton: {
+    backgroundColor: '#FFFFFF',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 12,
+    marginTop: 15,
+    borderWidth: 1,
+    borderColor: '#F0F0F0',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 6,
+    elevation: 3,
+    alignItems: 'center',
+  },
+  clearButtonText: {
+    color: '#2F80ED',
+    fontWeight: '600',
+  },
+
   errorText: {
     color: '#EF4444',
     fontSize: 16,
     textAlign: 'center',
     paddingHorizontal: 24,
   },
-  retryButton: {
-    marginTop: 16,
-    backgroundColor: '#2F80ED',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 8,
+  searchContainer: {
+    padding: 10,
+    borderRadius: 5,
   },
-  retryText: {
-    color: '#FFF',
-    fontWeight: '600',
+  searchInput: {
+    height: 40,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    paddingHorizontal: 15,
+    fontSize: 16,
   },
 });
