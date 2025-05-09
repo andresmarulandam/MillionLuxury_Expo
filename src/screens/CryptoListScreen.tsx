@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { CryptoCurrency } from '../models/CryptoCurrency';
 import { ApiService } from '../services/ApiService';
 import {
@@ -9,19 +9,44 @@ import {
   Text,
   View,
 } from 'react-native';
-import { formatPercentage, formatPrice } from '../utils/formatters';
+import CryptoItem from '../components/CryptoItem';
 
 export default function CryptoListScreen() {
   const [cryptos, setCryptos] = useState<CryptoCurrency[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [page, setPage] = useState<number>(0);
+  const [hasMore, setHasMore] = useState(true);
+
+  const loadMoreCryptos = useCallback(async () => {
+    if (!hasMore || loading) return;
+
+    try {
+      setLoading(true);
+      const nextPage = page + 1;
+      const response = await ApiService.getCryptos(nextPage * 100, 100);
+
+      setCryptos((prev) => {
+        const newData = response.data.filter(
+          (newItem) => !prev.some((item) => item.id === newItem.id),
+        );
+        return [...prev, ...newData];
+      });
+
+      setPage(nextPage);
+      setHasMore(response.data.length >= 100);
+    } finally {
+      setLoading(false);
+    }
+  }, [page, hasMore, loading]);
 
   useEffect(() => {
     const loadCryptos = async () => {
       try {
         setLoading(true);
-        const response = await ApiService.getCryptos();
+        const response = await ApiService.getCryptos(0, 100);
         setCryptos(response.data);
+        setHasMore(response.data.length > 0);
         setError(null);
       } catch (err) {
         let errorMessage = 'Failed to load cryptocurrencies';
@@ -54,40 +79,28 @@ export default function CryptoListScreen() {
             <Text style={styles.header}>Top Cryptocurrencies</Text>
             <FlatList
               data={cryptos}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => `${item.id}-${item.nameid}`}
               contentContainerStyle={styles.listContent}
-              renderItem={({ item }) => {
-                const percentage = formatPercentage(item.percent_change_24h);
-                const formattedPrice = formatPrice(item.price_usd);
-                return (
-                  <View style={styles.card}>
-                    <View style={styles.row}>
-                      <View>
-                        <Text style={styles.symbol}>{item.symbol}</Text>
-                        <Text style={styles.name} numberOfLines={1}>
-                          {item.name}
-                        </Text>
-                      </View>
-                      <View style={styles.changeContainer}>
-                        <Text style={styles.price}>${formattedPrice}</Text>
-                      </View>
-                    </View>
-
-                    <View style={styles.row}>
-                      <Text>Market Cap:</Text>
-                      <Text
-                        style={
-                          percentage.isPositive
-                            ? styles.positive
-                            : styles.negative
-                        }
-                      >
-                        {percentage.formatted}
-                      </Text>
-                    </View>
-                  </View>
-                );
+              renderItem={({ item }) => <CryptoItem item={item} />}
+              onEndReached={() => {
+                loadMoreCryptos();
               }}
+              onEndReachedThreshold={0.1}
+              initialNumToRender={10}
+              maxToRenderPerBatch={5}
+              windowSize={10}
+              updateCellsBatchingPeriod={50}
+              ListFooterComponent={
+                <View
+                  style={{
+                    height: 60,
+                    justifyContent: 'center',
+                    paddingVertical: 20,
+                  }}
+                >
+                  <ActivityIndicator size="small" color="red" />
+                </View>
+              }
             />
           </>
         )}
@@ -123,59 +136,8 @@ const styles = StyleSheet.create({
   },
 
   listContent: {
-    paddingBottom: 24,
+    paddingBottom: 50,
     paddingTop: 8,
-  },
-
-  card: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 6,
-    elevation: 3,
-    borderWidth: 1,
-    borderColor: '#F0F0F0',
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 6,
-  },
-  symbol: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#2F80ED',
-  },
-  name: {
-    fontSize: 14,
-    color: '#6B7280',
-  },
-  price: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#1A1A1A',
-    fontFamily: 'System',
-    letterSpacing: 0.5,
-  },
-  changeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  change: {
-    fontSize: 14,
-    fontWeight: '500',
-    marginLeft: 4,
-  },
-  positive: {
-    color: '#10B981', // Verde
-  },
-  negative: {
-    color: '#EF4444', // Rojo
   },
 
   // Loading y Error
