@@ -1,18 +1,27 @@
 import { memo } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { formatPercentage, formatPrice } from '../utils/formatters';
 import { CryptoCurrency } from '../models/CryptoCurrency';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { RootTabParamList } from '../navigation/types';
 
 interface CryptoItemProps {
   item: CryptoCurrency;
 }
 
+type DetailsNavigationProp = NavigationProp<RootTabParamList, 'Detalles'>;
+
 const CryptoItem: React.FC<CryptoItemProps> = memo(
   ({ item }) => {
+    const navigation = useNavigation<DetailsNavigationProp>();
     const percentage = formatPercentage(item.percent_change_24h);
     const formattedPrice = formatPrice(item.price_usd);
     return (
-      <View style={styles.card}>
+      <TouchableOpacity
+        style={styles.card}
+        activeOpacity={0.8}
+        onPress={() => navigation.navigate('Detalles', { id: item.id })}
+      >
         <View style={styles.row}>
           <View>
             <Text style={styles.symbol}>{item.symbol}</Text>
@@ -33,7 +42,7 @@ const CryptoItem: React.FC<CryptoItemProps> = memo(
             {percentage.formatted}
           </Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   },
   (prevProps, nextProps) => {
@@ -94,9 +103,9 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   positive: {
-    color: '#10B981', // Verde
+    color: '#10B981',
   },
   negative: {
-    color: '#EF4444', // Rojo
+    color: '#EF4444',
   },
 });
