@@ -6,17 +6,16 @@ import {
   Text,
   View,
 } from 'react-native';
-import { RootTabParamList } from '../navigation/types';
+import { ListaStackParamList, RootTabParamList } from '../navigation/types';
 import { useEffect, useState } from 'react';
 import { CryptoCurrency } from '../models/CryptoCurrency';
 import { ApiService } from '../services/ApiService';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import DetailRow from '../components/DetailRow';
-import { formatPercentage, formatPrice } from '../utils/formatters';
+
 import CryptoDetailsContent from '../components/CryptoDetailsContent';
 import LoaderView from '../components/LoaderView';
 
-type DetailsScreenRouteProp = RouteProp<RootTabParamList, 'Detalles'>;
+type DetailsScreenRouteProp = RouteProp<ListaStackParamList, 'CryptoDetails'>;
 
 export default function CryptoDetailsScreen() {
   const route = useRoute<DetailsScreenRouteProp>();

@@ -4,7 +4,12 @@ import CryptoDetailsScreen from '../screens/CryptoDetailsScreen';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StyleSheet } from 'react-native';
-import { RootTabParamList } from './types';
+import ListaStackNavigator from './ListaStackNavigator';
+
+export type RootTabParamList = {
+  Lista: undefined;
+  // otros tabs en los siguientes commits
+};
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
@@ -28,19 +33,10 @@ export default function TabNavigator() {
     >
       <Tab.Screen
         name="Lista"
-        component={CryptoListScreen}
+        component={ListaStackNavigator}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="list" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Detalles"
-        component={CryptoDetailsScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="information-circle" color={color} size={size} />
           ),
         }}
       />

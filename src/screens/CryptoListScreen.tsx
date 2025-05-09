@@ -15,6 +15,8 @@ import EmptyListMessage from '../components/EmptyListMessage';
 import CryptoListHeader from '../components/CryptoListHeader';
 import CryptoListFooter from '../components/CryptoListFooter';
 import LoaderView from '../components/LoaderView';
+import { useNavigation } from '@react-navigation/native';
+import { ListaStackParamList, RootTabParamList } from '../navigation/types';
 
 export default function CryptoListScreen() {
   const [cryptos, setCryptos] = useState<CryptoCurrency[]>([]);
@@ -23,6 +25,8 @@ export default function CryptoListScreen() {
   const [page, setPage] = useState<number>(0);
   const [hasMore, setHasMore] = useState(true);
   const [searchTerm, setSearchTerm] = useState<string>('');
+
+  const navigation = useNavigation<RootTabParamList>();
 
   const loadMoreCryptos = useCallback(async () => {
     if (!hasMore || loading) return;

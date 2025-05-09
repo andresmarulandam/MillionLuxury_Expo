@@ -3,13 +3,16 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { formatPercentage, formatPrice } from '../utils/formatters';
 import { CryptoCurrency } from '../models/CryptoCurrency';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { RootTabParamList } from '../navigation/types';
+import { ListaStackParamList, RootTabParamList } from '../navigation/types';
 
 interface CryptoItemProps {
   item: CryptoCurrency;
 }
 
-type DetailsNavigationProp = NavigationProp<RootTabParamList, 'Detalles'>;
+type DetailsNavigationProp = NavigationProp<
+  ListaStackParamList,
+  'CryptoDetails'
+>;
 
 const CryptoItem: React.FC<CryptoItemProps> = memo(
   ({ item }) => {
@@ -20,7 +23,7 @@ const CryptoItem: React.FC<CryptoItemProps> = memo(
       <TouchableOpacity
         style={styles.card}
         activeOpacity={0.8}
-        onPress={() => navigation.navigate('Detalles', { id: item.id })}
+        onPress={() => navigation.navigate('CryptoDetails', { id: item.id })}
       >
         <View style={styles.row}>
           <View>

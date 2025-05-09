@@ -1,4 +1,9 @@
+export type ListaStackParamList = {
+  CryptoList: undefined;
+  CryptoDetails: { id: string };
+};
+
 export type RootTabParamList = {
   Lista: undefined;
-  Detalles: { id: string };
+  // Más tabs aquí en los siguientes commits
 };
