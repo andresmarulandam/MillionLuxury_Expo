@@ -15,6 +15,7 @@ import {
 import CryptoItem from '../components/CryptoItem';
 import EmptyListMessage from '../components/EmptyListMessage';
 import CryptoListHeader from '../components/CryptoListHeader';
+import CryptoListFooter from '../components/CryptoListFooter';
 
 export default function CryptoListScreen() {
   const [cryptos, setCryptos] = useState<CryptoCurrency[]>([]);
@@ -119,17 +120,11 @@ export default function CryptoListScreen() {
               />
             }
             ListFooterComponent={
-              loading && hasMore && !searchTerm ? (
-                <View
-                  style={{
-                    height: 60,
-                    justifyContent: 'center',
-                    paddingVertical: 20,
-                  }}
-                >
-                  <ActivityIndicator size="small" color="red" />
-                </View>
-              ) : null
+              <CryptoListFooter
+                loading={loading}
+                hasMore={hasMore}
+                searchTerm={searchTerm}
+              />
             }
           />
         )}
