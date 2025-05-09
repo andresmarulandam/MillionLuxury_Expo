@@ -14,6 +14,7 @@ import CryptoItem from '../components/CryptoItem';
 import EmptyListMessage from '../components/EmptyListMessage';
 import CryptoListHeader from '../components/CryptoListHeader';
 import CryptoListFooter from '../components/CryptoListFooter';
+import LoaderView from '../components/LoaderView';
 
 export default function CryptoListScreen() {
   const [cryptos, setCryptos] = useState<CryptoCurrency[]>([]);
@@ -90,9 +91,7 @@ export default function CryptoListScreen() {
 
       <View style={styles.mainContainer}>
         {loading && cryptos.length === 0 ? (
-          <View style={styles.center}>
-            <ActivityIndicator size="large" color="#0052FF" />
-          </View>
+          <LoaderView />
         ) : error ? (
           <View style={styles.center}>
             <Text style={styles.errorText}>{error}</Text>
