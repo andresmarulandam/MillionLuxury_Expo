@@ -4,8 +4,9 @@ import CryptoDetailsScreen from '../screens/CryptoDetailsScreen';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StyleSheet } from 'react-native';
+import { RootTabParamList } from './types';
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<RootTabParamList>();
 
 export default function TabNavigator() {
   const insets = useSafeAreaInsets();
