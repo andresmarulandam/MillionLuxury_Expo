@@ -13,6 +13,7 @@ import {
   View,
 } from 'react-native';
 import CryptoItem from '../components/CryptoItem';
+import EmptyListMessage from '../components/EmptyListMessage';
 
 export default function CryptoListScreen() {
   const [cryptos, setCryptos] = useState<CryptoCurrency[]>([]);
@@ -120,19 +121,10 @@ export default function CryptoListScreen() {
             windowSize={10}
             updateCellsBatchingPeriod={50}
             ListEmptyComponent={
-              searchTerm && filteredCryptos.length === 0 ? (
-                <View style={styles.noResults}>
-                  <Text style={{ color: '#6B7280', marginBottom: 10 }}>
-                    No se encontraron criptos con "{searchTerm}"
-                  </Text>
-                  <TouchableOpacity
-                    style={styles.clearButton}
-                    onPress={() => setSearchTerm('')}
-                  >
-                    <Text style={styles.clearButtonText}>Limpiar búsqueda</Text>
-                  </TouchableOpacity>
-                </View>
-              ) : null
+              <EmptyListMessage
+                searchTerm={searchTerm}
+                onClear={() => setSearchTerm('')}
+              />
             }
             ListFooterComponent={
               loading && hasMore && !searchTerm ? (
@@ -195,34 +187,6 @@ const styles = StyleSheet.create({
   listContent: {
     paddingBottom: 50,
     paddingTop: 8,
-  },
-
-  noResults: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-    gap: 10,
-  },
-
-  clearButton: {
-    backgroundColor: '#FFFFFF',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 12,
-    marginTop: 15,
-    borderWidth: 1,
-    borderColor: '#F0F0F0',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 6,
-    elevation: 3,
-    alignItems: 'center',
-  },
-  clearButtonText: {
-    color: '#2F80ED',
-    fontWeight: '600',
   },
 
   errorText: {
