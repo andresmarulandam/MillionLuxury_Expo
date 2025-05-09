@@ -22,8 +22,10 @@ export class ApiService {
     limit: number = 100,
   ): Promise<CryptoResponse> {
     const response = await axios.get<CryptoResponse>(
-      `${this.BASE_URL}/tickers/?start=${start}&limit=${limit}`,
+      `${this.BASE_URL}/tickers/`,
+      { params: { start, limit } },
     );
+
     return response.data;
   }
 
