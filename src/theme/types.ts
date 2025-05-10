@@ -23,6 +23,7 @@ export interface AppTheme {
   tabBarActive: string;
   tabBarInactive: string;
   shadowColor: string;
+  tabBarBackground: string;
 }
 
 export type Typography = typeof typography;

@@ -1,13 +1,14 @@
 import { baseColors } from './colors';
 
 export const lightTheme = {
-  background: baseColors.gray50,
-  card: baseColors.gray100,
+  background: baseColors.gray200,
+  card: baseColors.gray300,
   text: baseColors.gray900,
   textSecondary: baseColors.gray600,
   primary: baseColors.blue,
+  tabBarBackground: baseColors.gray400,
   primaryGradient: ['#4361EE', '#3A0CA3'],
-  success: baseColors.neonGreen,
+  success: baseColors.success,
   successGradient: ['#00F5A0', '#00D9F5'],
   error: baseColors.red,
   errorGradient: ['#FF3860', '#FF0A54'],
