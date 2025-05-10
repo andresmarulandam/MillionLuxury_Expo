@@ -23,4 +23,5 @@ export const lightTheme = {
   chartArea: 'rgba(59, 130, 246, 0.1)',
   tabBarActive: baseColors.blue,
   tabBarInactive: baseColors.gray400,
+  shadowColor: baseColors.shadowColor,
 };

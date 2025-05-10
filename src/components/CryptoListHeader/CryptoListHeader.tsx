@@ -1,8 +1,7 @@
-import { Text, TextInput, View } from 'react-native';
+import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../theme/useTheme';
 import { styles } from './styles';
-import { baseColors } from '../../theme/colors';
 
 interface CryptoListHeaderProps {
   searchTerm: string;
@@ -13,50 +12,58 @@ const CryptoListHeader: React.FC<CryptoListHeaderProps> = ({
   searchTerm,
   onSearchTermChange,
 }) => {
-  const { theme } = useTheme();
+  const { theme, toggleMode, isDark } = useTheme();
   return (
     <View
       style={[
         styles.headerContainer,
         {
-          backgroundColor: baseColors.gray900,
-          borderBottomColor: baseColors.gray700,
+          backgroundColor: theme.background,
         },
       ]}
     >
-      <Text style={[styles.header, { color: baseColors.white }]}>
-        Cryptocurrencies
-      </Text>
+      <View style={styles.headerContainer}>
+        <Text style={[styles.header, { color: theme.text }]}>
+          Cryptocurrencies
+        </Text>
+        <TouchableOpacity onPress={toggleMode} style={styles.themeToggle}>
+          <Ionicons
+            name={isDark ? 'sunny' : 'moon'}
+            size={24}
+            color={theme.accent}
+          />
+        </TouchableOpacity>
+      </View>
 
       <View
         style={[
           styles.searchContainer,
           {
-            backgroundColor: baseColors.gray800,
-            shadowColor: baseColors.black,
+            backgroundColor: theme.card,
+            shadowColor: theme.shadowColor,
           },
         ]}
       >
         <Ionicons
           name="search-outline"
           size={24}
-          color={baseColors.gray400}
+          color={theme.textSecondary}
           style={styles.searchIcon}
         />
         <TextInput
           style={[
             styles.searchInput,
             {
-              color: baseColors.white,
+              color: theme.text,
             },
           ]}
           placeholder="Search Bitcoin, Ethereum..."
-          placeholderTextColor={baseColors.gray500}
+          placeholderTextColor={theme.textSecondary}
           value={searchTerm}
           onChangeText={onSearchTermChange}
           clearButtonMode="while-editing"
           returnKeyType="search"
-          selectionColor={baseColors.blue}
+          selectionColor={theme.primary}
         />
       </View>
     </View>
