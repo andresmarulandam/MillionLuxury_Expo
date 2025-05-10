@@ -17,22 +17,20 @@ const EmptyListMessage: React.FC<EmptyListMessageProps> = ({
 
   return (
     <View style={styles.noResults}>
-      <Text style={[styles.messageText, { color: baseColors.textSecondary }]}>
+      <Text style={[styles.messageText, { color: theme.textSecondary }]}>
         No se encontraron criptos con "{searchTerm}"
       </Text>
       <TouchableOpacity
         style={[
           styles.clearButton,
           {
-            backgroundColor: baseColors.cardBackground,
-            borderColor: baseColors.gray300,
+            backgroundColor: theme.background,
+            borderColor: theme.border,
           },
         ]}
         onPress={onClear}
       >
-        <Text
-          style={[styles.clearButtonText, { color: baseColors.textPrimary }]}
-        >
+        <Text style={[styles.clearButtonText, { color: theme.primary }]}>
           Limpiar búsqueda
         </Text>
       </TouchableOpacity>
