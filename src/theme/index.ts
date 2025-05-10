@@ -13,5 +13,5 @@ export const theme = {
   light: lightTheme,
   dark: darkTheme,
 };
-
+export type AppTheme = typeof theme;
 export { spacing, metrics, typography };

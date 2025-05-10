@@ -20,7 +20,32 @@ export const baseColors = {
   red: '#F43F5E',
   yellow: '#FACC15',
 
+  neonPurple: '#BC13FE',
+  neonPink: '#FF10F0',
+  neonYellow: '#FFF01F',
+
+  cardBackground: '#F9F9F9',
+  iconBackground: '#E0E0E0',
+  textPrimary: '#333333',
+  textSecondary: '#777777',
+  success: '#4CAF50',
+  error: '#F44336',
+  shadowColor: '#000000',
+
+  bitcoin: '#F7931A',
+  ethereum: '#627EEA',
+  solana: '#00FFA3',
+  cardano: '#0033AD',
+  ripple: '#27A2DB',
+
   gradientPrimary: ['#3B82F6', '#8B5CF6'],
   gradientSuccess: ['#00FFAB', '#10B981'],
   gradientError: ['#F43F5E', '#E11D48'],
+
+  gradientCrypto: ['#6A11CB', '#2575FC'],
+  gradientBitcoin: ['#F7931A', '#FFE39B'],
+  gradientEthereum: ['#627EEA', '#C2CBFD'],
+
+  shadowColorLight: 'rgba(0, 0, 0, 0.1)',
+  shadowColorDark: 'rgba(0, 0, 0, 0.3)',
 };
