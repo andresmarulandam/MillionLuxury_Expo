@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import CryptoListScreen from '../screens/CryptoListScreen';
+import CryptoListScreen from '../screens/CryptoListScreen/CryptoListScreen';
 import CryptoDetailsScreen from '../screens/CryptoDetailsScreen';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';

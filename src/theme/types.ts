@@ -22,6 +22,7 @@ export interface AppTheme {
   chartArea: string;
   tabBarActive: string;
   tabBarInactive: string;
+  shadowColor: string;
 }
 
 export type Typography = typeof typography;

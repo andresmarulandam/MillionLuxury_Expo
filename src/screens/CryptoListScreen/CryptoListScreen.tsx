@@ -1,32 +1,25 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { CryptoCurrency } from '../models/CryptoCurrency';
-import { ApiService } from '../services/ApiService';
-import {
-  ActivityIndicator,
-  Button,
-  FlatList,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import CryptoItem from '../components/CryptoItem';
-import EmptyListMessage from '../components/EmptyListMessage';
-import CryptoListHeader from '../components/CryptoListHeader';
-import CryptoListFooter from '../components/CryptoListFooter';
-import LoaderView from '../components/LoaderView';
-import { useNavigation } from '@react-navigation/native';
-import { ListaStackParamList, RootTabParamList } from '../navigation/types';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { CryptoCurrency } from '../../models/CryptoCurrency';
+import { ApiService } from '../../services/ApiService';
+import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import CryptoItem from '../../components/CryptoItem/CryptoItem';
+import EmptyListMessage from '../../components/EmptyListMessage/EmptyListMessage';
+import CryptoListHeader from '../../components/CryptoListHeader/CryptoListHeader';
+import CryptoListFooter from '../../components/CryptoListFooter/CryptoListFooter';
+import LoaderView from '../../components/LoaderView/LoaderView';
+import createstyles from './styles';
+import { useTheme } from '../../theme/useTheme';
 
 export default function CryptoListScreen() {
+  const { theme, mode, setMode } = useTheme();
+  const styles = useMemo(() => createstyles(theme), [theme]);
+
   const [cryptos, setCryptos] = useState<CryptoCurrency[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState<number>(0);
   const [hasMore, setHasMore] = useState(true);
   const [searchTerm, setSearchTerm] = useState<string>('');
-
-  const navigation = useNavigation<RootTabParamList>();
 
   const loadMoreCryptos = useCallback(async () => {
     if (!hasMore || loading) return;
@@ -93,11 +86,11 @@ export default function CryptoListScreen() {
         onSearchTermChange={setSearchTerm}
       />
 
-      <View style={styles.mainContainer}>
+      <View style={styles.container}>
         {loading && cryptos.length === 0 ? (
           <LoaderView />
         ) : error ? (
-          <View style={styles.center}>
+          <View style={styles.errorContainer}>
             <Text style={styles.errorText}>{error}</Text>
           </View>
         ) : (
@@ -133,32 +126,3 @@ export default function CryptoListScreen() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: 'blue',
-  },
-  mainContainer: {
-    flex: 1,
-    paddingHorizontal: 16,
-    backgroundColor: 'orange',
-  },
-  center: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
-  listContent: {
-    paddingBottom: 50,
-    paddingTop: 8,
-  },
-
-  errorText: {
-    color: '#EF4444',
-    fontSize: 16,
-    textAlign: 'center',
-    paddingHorizontal: 24,
-  },
-});

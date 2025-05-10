@@ -15,7 +15,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import CryptoDetailsContent from '../components/CryptoDetailsContent';
-import LoaderView from '../components/LoaderView';
+import LoaderView from '../components/LoaderView/LoaderView';
 
 type DetailsScreenRouteProp = RouteProp<ListaStackParamList, 'CryptoDetails'>;
 

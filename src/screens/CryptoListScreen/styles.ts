@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { AppTheme } from '../../theme/types';
-import { spacing, typography } from '../../theme';
+import { spacing } from '../../theme';
 
 const createStyles = (theme: AppTheme) =>
   StyleSheet.create({
@@ -8,27 +8,24 @@ const createStyles = (theme: AppTheme) =>
       flex: 1,
       backgroundColor: theme.background,
     },
-    mainContainer: {
+    container: {
       flex: 1,
+      paddingHorizontal: spacing.md,
       backgroundColor: theme.background,
-      paddingHorizontal: spacing.lg,
-      paddingTop: spacing.lg,
     },
     listContent: {
-      paddingBottom: spacing.xl * 2,
-      rowGap: spacing.md,
+      paddingBottom: spacing.xl,
     },
-    center: {
+    errorContainer: {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      paddingHorizontal: spacing.lg,
+      padding: spacing.xl,
     },
     errorText: {
       color: theme.error,
-      fontSize: typography.fontSize.lg,
-      fontWeight: typography.fontWeight.regular,
-      textAlign: 'center',
+      fontSize: 16,
+      fontFamily: 'Inter-Medium',
     },
   });
 
