@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { CryptoCurrency } from '../../models/CryptoCurrency';
 import { formatPercentage, formatPrice } from '../../utils/formatters';
-import DetailRow from '../DetailRow';
+import DetailRow from '../DetailRow/DetailRow';
 import { useTheme } from '../../theme/useTheme';
 import createStyles from './styles';
 
