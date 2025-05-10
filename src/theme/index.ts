@@ -13,3 +13,5 @@ export const theme = {
   light: lightTheme,
   dark: darkTheme,
 };
+
+export { spacing, metrics, typography };

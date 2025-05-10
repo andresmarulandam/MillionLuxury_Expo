@@ -4,9 +4,9 @@ import { ThemeType } from './types';
 import { useColorScheme } from 'react-native';
 import { darkTheme } from './darkTheme';
 
-const ThemeContext = createContext({
+export const ThemeContext = createContext({
   theme: lightTheme,
-  mode: 'ligth' as ThemeType,
+  mode: 'light' as ThemeType,
   setMode: (mode: ThemeType) => {},
 });
 
