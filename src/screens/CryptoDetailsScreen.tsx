@@ -1,9 +1,10 @@
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import {
   ActivityIndicator,
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import { ListaStackParamList, RootTabParamList } from '../navigation/types';
@@ -11,6 +12,7 @@ import { useEffect, useState } from 'react';
 import { CryptoCurrency } from '../models/CryptoCurrency';
 import { ApiService } from '../services/ApiService';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 import CryptoDetailsContent from '../components/CryptoDetailsContent';
 import LoaderView from '../components/LoaderView';
@@ -19,6 +21,7 @@ type DetailsScreenRouteProp = RouteProp<ListaStackParamList, 'CryptoDetails'>;
 
 export default function CryptoDetailsScreen() {
   const route = useRoute<DetailsScreenRouteProp>();
+  const navigation = useNavigation();
   const { id } = route.params;
 
   const [crypto, setCrypto] = useState<CryptoCurrency | null>(null);
@@ -58,7 +61,15 @@ export default function CryptoDetailsScreen() {
             </Text>
           </View>
         ) : (
-          <CryptoDetailsContent crypto={crypto} />
+          <>
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => navigation.goBack()}
+            >
+              <Ionicons name="chevron-back" size={24} color="#2F80ED" />
+            </TouchableOpacity>
+            <CryptoDetailsContent crypto={crypto} />
+          </>
         )}
       </View>
     </SafeAreaView>
@@ -86,5 +97,22 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     paddingHorizontal: 24,
+  },
+
+  backButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#FFFFFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+    marginTop: 16,
+    marginBottom: 4,
+    alignSelf: 'flex-start',
   },
 });
