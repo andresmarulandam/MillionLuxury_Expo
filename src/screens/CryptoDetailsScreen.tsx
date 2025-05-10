@@ -14,7 +14,7 @@ import { ApiService } from '../services/ApiService';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-import CryptoDetailsContent from '../components/CryptoDetailsContent';
+import CryptoDetailsContent from '../components/CryptoDetailsContent/CryptoDetailsContent';
 import LoaderView from '../components/LoaderView/LoaderView';
 
 type DetailsScreenRouteProp = RouteProp<ListaStackParamList, 'CryptoDetails'>;
@@ -62,12 +62,18 @@ export default function CryptoDetailsScreen() {
           </View>
         ) : (
           <>
-            <TouchableOpacity
-              style={styles.backButton}
-              onPress={() => navigation.goBack()}
-            >
-              <Ionicons name="chevron-back" size={24} color="#2F80ED" />
-            </TouchableOpacity>
+            <View>
+              <TouchableOpacity
+                style={styles.backButton}
+                onPress={() => navigation.goBack()}
+              >
+                <Ionicons name="chevron-back" size={24} color="#2F80ED" />
+              </TouchableOpacity>
+              <Text style={styles.title}>
+                {crypto.name} ({crypto.symbol})
+              </Text>
+            </View>
+
             <CryptoDetailsContent crypto={crypto} />
           </>
         )}
@@ -91,7 +97,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: '#1F2937',
+    textAlign: 'center',
+  },
   errorText: {
     color: '#EF4444',
     fontSize: 16,
