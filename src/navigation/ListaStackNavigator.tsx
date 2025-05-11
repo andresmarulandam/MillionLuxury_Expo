@@ -1,6 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import CryptoListScreen from '../screens/CryptoListScreen/CryptoListScreen';
-import CryptoDetailsScreen from '../screens/CryptoDetailsScreen';
+import CryptoDetailsScreen from '../screens/CryptoDetailsScreen/CryptoDetailsScreen';
 import { ListaStackParamList } from './types';
 
 const Stack = createStackNavigator<ListaStackParamList>();
