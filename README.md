@@ -2,6 +2,17 @@
 
 MillionLuxury_EXPO is a modern and sophisticated React Native application built with Expo. It provides a clean and elegant interface for exploring cryptocurrency data, including prices, percentage changes, and detailed information.
 
+<img src="https://github.com/user-attachments/assets/08b9eca4-54fa-4ffe-9c97-8f159a366726" width="200" />
+<img src="https://github.com/user-attachments/assets/99e11c45-b3e1-4371-b535-d70b98d3da27" width="200" />
+<br/>
+<img src="https://github.com/user-attachments/assets/2fa56189-5544-4402-9f9c-84839df286d2" width="200" />
+<img src="https://github.com/user-attachments/assets/607ce126-c73d-4660-8f1f-d2b94015b877" width="200" />
+<img src="https://github.com/user-attachments/assets/fd357ff3-aacf-4a29-b7b2-14d15237a507" width="200" />
+
+
+
+
+
 ## Features
 
 - **Cryptocurrency List**: View a list of cryptocurrencies with their prices and percentage changes.
